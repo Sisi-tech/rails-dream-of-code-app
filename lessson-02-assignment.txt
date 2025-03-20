@@ -244,7 +244,7 @@ end_time (Datetime)
 status (Enum: scheduled, completed, canceled)
 created_at, updated_at (Timestamps)
 
-4.Students (Optional Enhancement)
+4.Students
 
 id (Primary Key)
 name (String)
@@ -252,14 +252,14 @@ email (String, Unique)
 weight_kg (Integer)
 created_at, updated_at (Timestamps)
 
-5.Enrollments (Optional - Many-to-Many for Coaches & Students)
+5.Enrollments ( Many-to-Many for Coaches & Students)
 
 id (Primary Key)
 coach_id (Foreign Key → Users)
 student_id (Foreign Key → Students)
 created_at, updated_at (Timestamps)
 
-6.Payments (Optional Enhancement - Tracking Aircraft Rental Fees)
+6.Payments (Tracking Aircraft Rental Fees)
 
 id (Primary Key)
 schedule_id (Foreign Key → Schedules)
