@@ -1,0 +1,268 @@
+#Task 2 - Creating course for the Spring 2026 trimester
+
+doc-rails(dev)> Trimester.create(year: '2026', term: 'Spring', application_deadline: '2026-02-15', start_date: '2026-03-01', end_date: '2026-06-30')
+  TRANSACTION (0.1ms)  BEGIN immediate TRANSACTION /*application='DocRails'*/
+  Trimester Create (4.2ms)  INSERT INTO "trimesters" ("year", "term", "application_deadline", "start_date", "end_date", "created_at", "updated_at") VALUES ('2026', 'Spring', '2026-02-15', '2026-03-01', '2026-06-30', '2025-03-10 18:14:12.697208', '2025-03-10 18:14:12.697208') RETURNING "id" /*application='DocRails'*/
+  TRANSACTION (0.5ms)  COMMIT TRANSACTION /*application='DocRails'*/
+=> 
+#<Trimester:0x00000001099cb418
+ id: 8,
+ year: "2026",
+ term: "Spring",
+ application_deadline: "2026-02-15",
+ start_date: "2026-03-01",
+ end_date: "2026-06-30",
+ created_at: "2025-03-10 18:14:12.697208000 +0000",
+ updated_at: "2025-03-10 18:14:12.697208000 +0000">
+doc-rails(dev)> 
+
+#Question 2
+Create a new student record and enroll the student in the Intro to Programming course for the Spring 2026 trimester.
+Find a mentor with no more than 2 students (enrollments) assigned and assign that mentor to your new student's enrollment.
+
+(1). Create a new student:
+doc-rails(dev)> Student.create(first_name: 'Jessy', last_name: 'Lee', email: 'Jessy.Lee@test')
+  TRANSACTION (0.0ms)  BEGIN immediate TRANSACTION /*application='DocRails'*/
+  Student Exists? (2.1ms)  SELECT 1 AS one FROM "students" WHERE "students"."email" = 'Jessy.Lee@test' LIMIT 1 /*application='DocRails'*/
+  Student Create (0.2ms)  INSERT INTO "students" ("first_name", "last_name", "email", "created_at", "updated_at") VALUES ('Jessy', 'Lee', 'Jessy.Lee@test', '2025-03-10 18:28:20.940258', '2025-03-10 18:28:20.940258') RETURNING "id" /*application='DocRails'*/
+  TRANSACTION (0.4ms)  COMMIT TRANSACTION /*application='DocRails'*/
+=> 
+#<Student:0x000000010a87a310
+ id: 51,
+ first_name: "Jessy",
+ last_name: "Lee",
+ email: "[FILTERED]",
+ created_at: "2025-03-10 18:28:20.940258000 +0000",
+ updated_at: "2025-03-10 18:28:20.940258000 +0000">
+doc-rails(dev)> 
+
+(2). Create 2026 Sprint class on Trimester since it doesn't exist 
+doc-rails(dev)> Trimester.create(year: '2026', term: 'Sprint', application_deadline: '2026-02-15', start_date: '2026-03-01', end_date: '2026-05-31')
+  TRANSACTION (0.1ms)  BEGIN immediate TRANSACTION /*application='DocRails'*/
+  Trimester Create (0.7ms)  INSERT INTO "trimesters" ("year", "term", "application_deadline", "start_date", "end_date", "created_at", "updated_at") VALUES ('2026', 'Sprint', '2026-02-15', '2026-03-01', '2026-05-31', '2025-03-10 18:40:14.115265', '2025-03-10 18:40:14.115265') RETURNING "id" /*application='DocRails'*/
+  TRANSACTION (1.4ms)  COMMIT TRANSACTION /*application='DocRails'*/
+=> 
+#<Trimester:0x000000010a993850
+ id: 9,
+ year: "2026",
+ term: "Sprint",
+ application_deadline: "2026-02-15",
+ start_date: "2026-03-01",
+ end_date: "2026-05-31",
+ created_at: "2025-03-10 18:40:14.115265000 +0000",
+ updated_at: "2025-03-10 18:40:14.115265000 +0000">
+doc-rails(dev)> 
+
+(3). Find coding_classes id:
+doc-rails(dev)> CodingClass.find_by(title: 'Intro to Programming')
+  CodingClass Load (2.0ms)  SELECT "coding_classes".* FROM "coding_classes" WHERE "coding_classes"."title" = 'Intro to Programming' LIMIT 1 /*application='DocRails'*/
+=> 
+#<CodingClass:0x000000010b8be618
+ id: 1,
+ title: "Intro to Programming",
+ description: "Learn the basics of web development, including HTM...",
+ created_at: "2025-03-10 00:17:59.321547000 +0000",
+ updated_at: "2025-03-10 00:17:59.321547000 +0000">
+doc-rails(dev)> 
+
+(4). Create courses:
+doc-rails(dev)> Course.create(coding_class_id: 1, trimester_id: 9, max_enrollment: 25)
+  TRANSACTION (0.1ms)  BEGIN immediate TRANSACTION /*application='DocRails'*/
+  CodingClass Load (0.6ms)  SELECT "coding_classes".* FROM "coding_classes" WHERE "coding_classes"."id" = 1 LIMIT 1 /*application='DocRails'*/
+  Trimester Load (0.1ms)  SELECT "trimesters".* FROM "trimesters" WHERE "trimesters"."id" = 9 LIMIT 1 /*application='DocRails'*/
+  Course Create (0.2ms)  INSERT INTO "courses" ("coding_class_id", "trimester_id", "max_enrollment", "created_at", "updated_at") VALUES (1, 9, 25, '2025-03-10 18:49:03.926958', '2025-03-10 18:49:03.926958') RETURNING "id" /*application='DocRails'*/
+  TRANSACTION (0.6ms)  COMMIT TRANSACTION /*application='DocRails'*/
+=> 
+#<Course:0x000000010a857040
+ id: 36,
+ coding_class_id: 1,
+ trimester_id: 9,
+ max_enrollment: 25,
+ created_at: "2025-03-10 18:49:03.926958000 +0000",
+ updated_at: "2025-03-10 18:49:03.926958000 +0000">
+doc-rails(dev)> 
+
+(5). Enroll the student in the 2026 spring Intro to Programming course:
+doc-rails(dev)> Enrollment.create(course_id: 36, student_id: 51, final_grade: nil)
+  TRANSACTION (0.1ms)  BEGIN immediate TRANSACTION /*application='DocRails'*/
+  Course Load (0.5ms)  SELECT "courses".* FROM "courses" WHERE "courses"."id" = 36 LIMIT 1 /*application='DocRails'*/
+  Student Load (0.1ms)  SELECT "students".* FROM "students" WHERE "students"."id" = 51 LIMIT 1 /*application='DocRails'*/
+  Enrollment Create (0.3ms)  INSERT INTO "enrollments" ("course_id", "student_id", "final_grade", "created_at", "updated_at") VALUES (36, 51, NULL, '2025-03-10 18:50:43.558444', '2025-03-10 18:50:43.558444') RETURNING "id" /*application='DocRails'*/
+  TRANSACTION (0.2ms)  COMMIT TRANSACTION /*application='DocRails'*/
+=> 
+#<Enrollment:0x00000001092c5c68
+ id: 91,
+ course_id: 36,
+ student_id: 51,
+ final_grade: nil,
+ created_at: "2025-03-10 18:50:43.558444000 +0000",
+ updated_at: "2025-03-10 18:50:43.558444000 +0000">
+doc-rails(dev)> 
+
+No mentor has equal or less than 2 assigned students. All mentors have 3 assigned students. 
+I'll create a new mentor and assign the new student to that mentor.
+doc-rails(dev)> MentorEnrollmentAssignment.group(:mentor_id).count
+  MentorEnrollmentAssignment Count (0.4ms)  SELECT COUNT(*) AS "count_all", "mentor_enrollment_assignments"."mentor_id" AS "mentor_enrollment_assignments_mentor_id" FROM "mentor_enrollment_assignments" GROUP BY "mentor_enrollment_assignments"."mentor_id" /*application='DocRails'*/
+=> 
+{1=>3,
+ 2=>3,
+ 3=>3,
+ 4=>3,
+ 5=>3,
+ 6=>3,
+ 7=>3,
+ 8=>3,
+ 9=>3,
+ 10=>3,
+ 11=>3,
+ 12=>3,
+ 13=>3,
+ 14=>3,
+ 15=>3,
+ 16=>3,
+ 17=>3,
+ 18=>3,
+ 19=>3,
+ 20=>3,
+ 21=>3,
+ 22=>3,
+ 23=>3,
+ 24=>3,
+ 25=>3,
+ 26=>3,
+ 27=>3,
+ 28=>3,
+ 29=>3,
+ 30=>3}
+doc-rails(dev)> 
+
+Create new mentor
+doc-rails(dev)> Mentor.create(first_name: 'Roy', last_name: 'Kim', email: 'Roy.kim@test')
+  TRANSACTION (0.2ms)  BEGIN immediate TRANSACTION /*application='DocRails'*/
+  Mentor Create (3.2ms)  INSERT INTO "mentors" ("first_name", "last_name", "email", "max_concurrent_students", "created_at", "updated_at") VALUES ('Roy', 'Kim', 'Roy.kim@test', NULL, '2025-03-13 19:21:48.396594', '2025-03-13 19:21:48.396594') RETURNING "id" /*application='DocRails'*/
+  TRANSACTION (0.8ms)  COMMIT TRANSACTION /*application='DocRails'*/
+=> 
+#<Mentor:0x000000010ad7f798
+ id: 32,
+ first_name: "Roy",
+ last_name: "Kim",
+ email: "[FILTERED]",
+ max_concurrent_students: nil,
+ created_at: "2025-03-13 19:21:48.396594000 +0000",
+ updated_at: "2025-03-13 19:21:48.396594000 +0000">
+doc-rails(dev)> 
+
+Assign the new student enrollment to the new mentor 
+doc-rails(dev)> MentorEnrollmentAssignment.create(mentor_id: 32, enrollment_id: 91)
+  TRANSACTION (0.2ms)  BEGIN immediate TRANSACTION /*application='DocRails'*/
+  Mentor Load (0.8ms)  SELECT "mentors".* FROM "mentors" WHERE "mentors"."id" = 32 LIMIT 1 /*application='DocRails'*/
+  Enrollment Load (2.1ms)  SELECT "enrollments".* FROM "enrollments" WHERE "enrollments"."id" = 91 LIMIT 1 /*application='DocRails'*/
+  MentorEnrollmentAssignment Exists? (0.1ms)  SELECT 1 AS one FROM "mentor_enrollment_assignments" WHERE "mentor_enrollment_assignments"."enrollment_id" = 91 LIMIT 1 /*application='DocRails'*/
+  MentorEnrollmentAssignment Create (0.1ms)  INSERT INTO "mentor_enrollment_assignments" ("mentor_id", "enrollment_id", "created_at", "updated_at") VALUES (32, 91, '2025-03-13 19:24:08.160294', '2025-03-13 19:24:08.160294') RETURNING "id" /*application='DocRails'*/
+  TRANSACTION (0.6ms)  COMMIT TRANSACTION /*application='DocRails'*/
+=> 
+#<MentorEnrollmentAssignment:0x000000010c899d80
+ id: 91,
+ mentor_id: 32,
+ enrollment_id: 91,
+ created_at: "2025-03-13 19:24:08.160294000 +0000",
+ updated_at: "2025-03-13 19:24:08.160294000 +0000">
+doc-rails(dev)> 
+
+#Question 4 - Describe my project
+Project Name: Flight Training Scheduler
+Project Overview
+  The Flight Training Scheduler is a web application designed for an airplane training school to help coaches manage 
+  aircraft availability, schedule training sessions, and track aircraft usage. The system ensures that training schedules
+  are efficiently planned, avoiding conflicts in aircraft usage and instructor availability.
+
+User Roles
+  * Coach: The primary user who can book, manage, and view training schedules.
+  * Admin (Optional): A role that can oversee aircraft availability, set rental pricing, and manage the schedule system.
+
+Core Features
+1. Aircraft Management:
+  View available aircraft with specifications such as weight limit, capacity, and rental price.
+  Check aircraft availability based on scheduled bookings.
+  
+2. Schedule Management:
+  A coach can book a specific aircraft for a training session with a defined time slot.
+  View schedules of other coaches to avoid conflicts.
+  Modify or cancel bookings (if necessary).
+
+3. Student Information (Optional Enhancement):
+  Track which students are assigned to a flight session.
+  Ensure students meet aircraft weight requirements before booking.
+
+4. Pricing & Billing (Optional Enhancement):
+  Display rental pricing for aircraft.
+  Calculate session costs based on aircraft type and duration.
+
+5.Reporting & Notifications (Optional Enhancements):
+  Notify coaches of upcoming or conflicting bookings.
+  Generate reports on aircraft usage and training hours.
+
+User Flow Example:
+  1. A coach logs in to the system.
+  2. The coach selects an available aircraft and time slot.
+  3. The system verifies aircraft availability and booking constraints (e.g., weight limits).
+  4. If available, the system confirms the booking and updates the schedule.
+  5. The coach can view all scheduled sessions, including their own and others'.
+
+Question 5 - Design the data model
+Data Model Design for Flight Training Scheduler
+
+Tables & Attributes
+
+1.Users (Coaches & Admins)
+
+id (Primary Key)
+name (String)
+email (String, Unique)
+password_digest (String)
+role (Enum: coach, admin)
+created_at, updated_at (Timestamps)
+
+2.Aircraft
+
+id (Primary Key)
+name (String)
+model (String)
+weight_limit_kg (Integer)
+capacity (Integer)
+rental_price_per_hour (Decimal)
+availability_status (Boolean)
+created_at, updated_at (Timestamps)
+
+3.Schedules
+
+id (Primary Key)
+coach_id (Foreign Key → Users)
+aircraft_id (Foreign Key → Aircrafts)
+start_time (Datetime)
+end_time (Datetime)
+status (Enum: scheduled, completed, canceled)
+created_at, updated_at (Timestamps)
+
+4.Students
+
+id (Primary Key)
+name (String)
+email (String, Unique)
+weight_kg (Integer)
+created_at, updated_at (Timestamps)
+
+5.Enrollments ( Many-to-Many for Coaches & Students)
+
+id (Primary Key)
+coach_id (Foreign Key → Users)
+student_id (Foreign Key → Students)
+created_at, updated_at (Timestamps)
+
+6.Payments (Tracking Aircraft Rental Fees)
+
+id (Primary Key)
+schedule_id (Foreign Key → Schedules)
+amount_paid (Decimal)
+payment_status (Enum: pending, paid, canceled)
+created_at, updated_at (Timestamps)
