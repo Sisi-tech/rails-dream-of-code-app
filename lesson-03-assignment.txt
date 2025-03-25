@@ -1,0 +1,55 @@
+1.What tables do you need to add? Decide on table names and their associations to each other and any existing tables/models.
+    We need to add a table named assignments to store student submissions and mentor reviews.
+    Relationships:
+        An assignment belongs to a student
+        An assignment belongs to a lesson
+        An assignment belongs to an enrollment
+        An assignment belongs to a mentor
+        A lesson has many assignments
+        A mentor has many assignments
+        An enrollment has many assignments
+        A student has many assignments (through enrollment)
+
+2.What columns are necessary for the associations you decided on?
+    Column Name	Data Type	Description
+    id	primary key	Unique ID for the assignment
+    student_id	integer	Foreign key (references students table)
+    lesson_id	integer	Foreign key (references lessons table)
+    enrollment_id	integer	Foreign key (references enrollments table)
+    mentor_id	integer	Foreign key (references mentors table)
+    pull_request_url	string	Link to student’s PR submission
+    review_result	string	"successful" or "needs revisions"
+    reviewed_at	datetime	Timestamp of when the mentor reviewed
+    created_at	datetime	Timestamp of when the student submitted
+    updated_at	datetime	Timestamp of when the record was last updated
+
+3.What other columns (if any) need to be included on the tables? What other data needs to be stored?
+    * updated_at (if needs revisions)
+
+4.Write out each table's name and column names with data types.
+class CreateAssignments < ActiveRecord::Migration[7.0]
+  def change
+    create_table :assignments do |t|
+      t.references :student, null: false, foreign_key: true
+      t.references :lesson, null: false, foreign_key: true
+      t.references :enrollment, null: false, foreign_key: true
+      t.references :mentor, null: false, foreign_key: true
+      t.string :pull_request_url, null: false
+      t.string :review_result # "successful" or "needs revisions"
+      t.datetime :reviewed_at # When mentor reviews
+      t.timestamps # Includes created_at and updated_at
+    end
+  end
+end
+
+5.Determine the generator command you'll need to create the migration file and run the command to generate the empty migration file. 
+Start with just the topics migration. (Hint: your filename should be create_topics)
+    * To generate migration command:
+        rails generate migration CreateAssignments
+    * Run migration
+        rails db:migrate 
+    * Verify the Table:
+        bin/rails console 
+    * Run:
+        Submission.columns.map(&:name)
+        
