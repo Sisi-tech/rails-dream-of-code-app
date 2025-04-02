@@ -1,0 +1,13 @@
+(base) sisiwang@Sisis-MacBook-Pro rails-dream-of-code-app % rails routes | grep mentors
+
+                          mentors GET    /mentors(.:format)                                mentors#index
+                                  POST   /mentors(.:format)                                mentors#create
+                           mentor GET    /mentors/:id(.:format)                            mentors#show
+                                  PATCH  /mentors/:id(.:format)                            mentors#update
+                                  PUT    /mentors/:id(.:format)                            mentors#update
+                                  DELETE /mentors/:id(.:format)                            mentors#destroy
+(base) sisiwang@Sisis-MacBook-Pro rails-dream-of-code-app % bundle exec rspec spec/requests/api/v1/mentors_spec.rb
+..
+
+Finished in 0.04348 seconds (files took 0.93961 seconds to load)
+2 examples, 0 failures

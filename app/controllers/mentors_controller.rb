@@ -4,10 +4,12 @@ class MentorsController < ApplicationController
   # GET /mentors or /mentors.json
   def index
     @mentors = Mentor.all
+    render json: @mentors 
   end
 
   # GET /mentors/1 or /mentors/1.json
   def show
+    @mentor = Mentor.find(params[:id])
   end
 
   # GET /mentors/new
@@ -65,6 +67,7 @@ class MentorsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def mentor_params
-      params.expect(mentor: [ :first_name, :last_name, :email, :max_concurrent_students ])
+      # params.expect(mentor: [ :first_name, :last_name, :email, :max_concurrent_students ])
+      params.require(:mentor).permit(:first_name, :last_name, :email, :max_concurrent_students)
     end
 end
