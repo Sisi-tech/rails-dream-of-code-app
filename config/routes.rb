@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
   resources :students
-  resources :mentors
+  resources :mentors, only: [:index, :show, :create, :update, :destroy]
   resources :enrollments
   resources :mentor_enrollment_assignments
   resources :lessons
   resources :courses
   resources :coding_classes
+  resources :trimesters, only: [:index, :show]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
