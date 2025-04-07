@@ -1,0 +1,9 @@
+All test passed no failures - copy the command and message from the terminal as reference:
+
+(base) sisiwang@Sisis-MacBook-Pro rails-dream-of-code-app % bundle exec rspec spec/models/course_spec.rb
+...WARNING: Using `expect { }.not_to raise_error(SpecificErrorClass)` risks false positives, since literally any other error would cause the expectation to pass, including those raised by Ruby (e.g. `NoMethodError`, `NameError` and `ArgumentError`), meaning the code you are intending to test may not even get reached. Instead consider using `expect { }.not_to raise_error` or `expect { }.to raise_error(DifferentSpecificErrorClass)`. This message can be suppressed by setting: `RSpec::Expectations.configuration.on_potential_false_positives = :nothing`. Called from /Users/sisiwang/Code/ruby/rails-dream-of-code-app/spec/models/course_spec.rb:51:in `block (3 levels) in <top (required)>'.
+...WARNING: Using `expect { }.not_to raise_error(SpecificErrorClass)` risks false positives, since literally any other error would cause the expectation to pass, including those raised by Ruby (e.g. `NoMethodError`, `NameError` and `ArgumentError`), meaning the code you are intending to test may not even get reached. Instead consider using `expect { }.not_to raise_error` or `expect { }.to raise_error(DifferentSpecificErrorClass)`. This message can be suppressed by setting: `RSpec::Expectations.configuration.on_potential_false_positives = :nothing`. Called from /Users/sisiwang/Code/ruby/rails-dream-of-code-app/spec/models/course_spec.rb:106:in `block (3 levels) in <top (required)>'.
+...
+
+Finished in 0.0542 seconds (files took 1.14 seconds to load)
+9 examples, 0 failures
