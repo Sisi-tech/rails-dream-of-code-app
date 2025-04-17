@@ -1,4 +1,4 @@
-<div id="<%= dom_id course %>">
+<div id="<%= dom_id course %>" class="card mb-3 p-3 border">
   <p>
     <strong>Coding class:</strong>
     <%= course.coding_class.title %>
@@ -8,9 +8,9 @@
     <strong>Trimester:</strong>
     <%= "#{course.trimester.term} #{course.trimester.year}" %>
   </p>
-
-  <strong>Enrolled students</strong>
-  <ul>
+  <strong>Enrolled students:</strong>
+  
+  <ul class="mb-3">
     <% course.enrollments.each do |enrollment| %>
       <li><%= enrollment.student.full_name %></li>
     <% end %>
@@ -19,6 +19,10 @@
   <p>
     <strong>Max enrollment:</strong>
     <%= course.max_enrollment %>
+  </p>
+  <p>
+    <strong> Total Enrolled students: </strong>
+    <%= course.enrollments.count %>
   </p>
 
 </div>
