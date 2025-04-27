@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_24_235506) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_04_201306) do
   create_table "coding_classes", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -24,6 +24,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_24_235506) do
     t.integer "max_enrollment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "start_date"
+    t.date "end_date"
     t.index ["coding_class_id"], name: "index_courses_on_coding_class_id"
     t.index ["trimester_id"], name: "index_courses_on_trimester_id"
   end

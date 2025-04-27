@@ -1,13 +1,20 @@
 class CoursesController < ApplicationController
-  before_action :set_course, only: %i[ show edit update destroy ]
-
   # GET /courses or /courses.json
   def index
-    @courses = Course.all
+    current_date = Date.today 
+    current_trimester = Trimester.where("Start_date <= ? AND end_date >= ?", current_date, current_date).first
+    @courses = current_trimester ? Course.where(trimester_id: current_trimester.id) : []
+
+    respond_to do |format|
+      format.html 
+      format.json { render json: { courses: @courses }}
+    end 
   end
 
-  # GET /courses/1 or /courses/1.json
   def show
+    @course = Course.find(params[:id])
+    @course = Course.includes(:coding_class, :trimester).find(params[:id])
+    @students = @course.enrollments.includes(:student).map(&:student)
   end
 
   # GET /courses/new
@@ -49,11 +56,15 @@ class CoursesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_course
-      @course = Course.find(params.expect(:id))
+      @course = Course.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def course_params
-      params.expect(course: [ :coding_class_id, :trimester_id, :max_enrollment ])
+      params.require(:course).permit(:coding_class_id, :trimester_id, :max_enrollment)
     end
 end
+
+    
+
+

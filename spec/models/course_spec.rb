@@ -14,7 +14,7 @@ RSpec.describe Course, type: :model do
     CodingClass.create(title: 'Test Class')
   }
   let(:trimester) { 
-    Trimester.create(
+    Trimester.create!(
       year: '2025',
       term: 'Winter',
       start_date: '2025-01-01',
@@ -23,7 +23,7 @@ RSpec.describe Course, type: :model do
     )
   }
   let(:course) {
-    Course.create(coding_class: coding_class,
+    Course.create!(coding_class: coding_class,
                   trimester: trimester)
   }
     
