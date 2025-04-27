@@ -1,5 +1,7 @@
 <h1>New Submission for <%= @course.title %></h1>
 
+<%= link_to "New Submission", new_course_submission_path(@course) %>
+
 <%= form_with(model: [@course, @submission], local: true) do |form| %>
   <% if @submission.errors.any? %>
     <div style="color: red">
@@ -23,10 +25,18 @@
   </div>
 
   <div class="form-group">
-    <%= form.label :url, 'URL', class: 'form-text' %>
-    <%= form.text_field :url, class: 'form-control' %>
+    <%= form.label :mentor, {}, { class: 'form-text'} %>
+    <%= form.select :mentor_id, options_from_collection_for_select(@mentors, :id, :mentor_name), { prompt: 'Select Mentor' }, { class: 'form-control' } %>
   </div>
+
+
+  <div class="form-group">
+    <%= form.label :url, 'URL', class: 'form-text' %>
+    <%= form.text_field :pull_request_url, class: 'form-control' %>
+  </div>
+
 
   <hr />
   <%= form.submit 'Submit', class: 'btn btn-primary' %>
 <% end %>
+
