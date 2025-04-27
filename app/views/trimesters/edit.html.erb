@@ -1,0 +1,10 @@
+<h3>Edit Trimester</h3>
+
+<%= form_with model: @trimester, url: trimester_path(@trimester), method: :put do |f| %>
+    <div>
+        <%= f.label :application_deadline %><br>
+        <%= f.date_field :application_deadline %>
+    </div>
+
+    <%= f.submit "Update" %>
+<% end %>

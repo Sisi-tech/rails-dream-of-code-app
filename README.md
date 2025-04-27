@@ -4,10 +4,12 @@
 2. Once you've verified both Ruby and Rails are installed properly, fork this repository and then clone your fork to your source directory (wherever you keep your source code.)
 3. In a terminal window, navigate to the root directory of the project and run `bundle install`. This installs any additional gems the project needs on your local machine.
 4. In a terminal window and in the root directory of the project, run the following command to set up the database and starter data:
-  ```
-  bin/rails db:setup
-  ```
-  This runs the rails executable's db:setup command, which creates development and test databases with the current schema. It also populates the development database with data created by running `db/seeds.rb`.
+
+```
+bin/rails db:setup
+```
+
+This runs the rails executable's db:setup command, which creates development and test databases with the current schema. It also populates the development database with data created by running `db/seeds.rb`.
 
 ## SQLite Database GUI
 
@@ -16,6 +18,7 @@ We'll be using a SQLite database to store application data in this project. You'
 Once you have a SQLite GUI installed, open the database and take a look. There should be data in most tables that looks similar to the data from the spreadsheet (though the data will not match exactly). The development and test databases are located in `app/storage`, called `development.sqlite3` and `test.sqlite3` respectively.
 
 In Beekeeper Studio...
+
 - Click "File" -> "New window", then choose "SQLite" from the options
 - Then click "Choose File" and navigate to `app/storage/development.sqlite3` inside the root directory of your project. - Select the file and click "Connect".
 
@@ -61,7 +64,7 @@ Check out some of the existing routes:
 `http://localhost/enrollments`
 `http://localhost/students`
 
-As you click around, look back at the terminal window where you started the application. You should see the requests you make logged in the terminal window. 
+As you click around, look back at the terminal window where you started the application. You should see the requests you make logged in the terminal window.
 
 ```
 Started GET "/students/" for 127.0.0.1 at 2025-02-23 15:48:50 -0500
