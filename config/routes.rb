@@ -1,18 +1,28 @@
 Rails.application.routes.draw do
-  get 'login', to: 'sessions#new'
-  post 'login', to: 'sessions#create'
-  delete 'logout', to: 'sessions#destroy'
-  resources :students
-  resources :mentors
-  resources :enrollments
-  resources :mentor_enrollment_assignments
-  resources :lessons
-  resources :courses do 
-    resources :submissions 
+  namespace :api, defaults: { format: :json } do 
+    namespace :v1 do 
+      # Authentication routes
+      get '/login', to: 'sessions#new'
+      post '/login', to: 'sessions#create'
+      delete '/logout', to: 'sessions#destroy'
+
+      # Resource routes
+      resources :students 
+      resources :mentors 
+      resources :enrollments
+      resources :mentor_enrollment_assignments
+      resources :lessons
+      resources :courses do 
+        resources :submissions
+      end 
+      resources :coding_classes
+      resources :trimesters 
+
+      # Admin dashboard route
+      get '/dashboard', to: "admin_dashboard#index"
+    end 
   end 
-  resources :coding_classes
-  resources :trimesters
-  resources :dashboard, to: "admin_dashboard#index"
+ 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
