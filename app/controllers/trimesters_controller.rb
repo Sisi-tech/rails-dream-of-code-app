@@ -1,4 +1,7 @@
 class TrimestersController < ApplicationController 
+    before_action :require_admin, only: %i[ new create edit update destroy ]
+    before_action :set_trimester, only: %i[show edit update destroy]
+
     def index 
         @trimesters = Trimester.all 
         render json: @trimesters 
@@ -34,6 +37,10 @@ class TrimestersController < ApplicationController
         else  
             render :edit, status: :unprocessable_entity
         end 
+    end 
+
+    def set_trimester 
+        @trimester = Trimester.find(params[:id])
     end 
 
 end 

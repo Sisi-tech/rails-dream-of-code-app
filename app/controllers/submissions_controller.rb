@@ -1,5 +1,8 @@
 require 'ostruct'
 class SubmissionsController < ApplicationController
+  before_action :require_student, only: %i[ create ]
+  before_action :require_mentor, only: %i[ edit update ]
+  before_action :set_submission, only: %i[show edit update destroy]
   # GET /submissions/new
   def new
     @course = Course.find(params[:course_id])
@@ -48,6 +51,10 @@ class SubmissionsController < ApplicationController
   # PATCH/PUT /submissions/1 or /submissions/1.json
   def update
   end
+
+  def set_submission 
+    @submission = Submission.find(params[:id])
+  end 
 
   private
   # Only allow a list of trusted parameters through.
