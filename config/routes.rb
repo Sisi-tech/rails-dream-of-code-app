@@ -26,9 +26,17 @@ Rails.application.routes.draw do
       get '/courses/:course_id/submissions', to: 'submissions#index'
       get '/coding_classes', to: 'coding_classes#index'
       get '/trimesters', to: 'trimesters#index'
-
       # Admin dashboard route
       get '/dashboard', to: "admin_dashboard#index"
+
+      post '/students', to: 'students#create'
+      post '/mentors', to: 'mentors#create'
+      post '/enrollments', to: 'enrollments#create'
+      post '/mentor_enrollment_assignments', to: 'mentor_enrollment_assignments#create'
+      post '/lessons', to: 'lessons#create'
+      post '/courses/:course_id/submissions', to: 'submissions#create'
+      post '/coding_classes', to: 'coding_classes#create'
+      post '/trimesters', to: 'trimesters#create'
     end 
   end 
  
