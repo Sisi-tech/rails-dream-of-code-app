@@ -1,18 +1,45 @@
 Rails.application.routes.draw do
-  get 'login', to: 'sessions#new'
-  post 'login', to: 'sessions#create'
-  delete 'logout', to: 'sessions#destroy'
-  resources :students
-  resources :mentors
-  resources :enrollments
-  resources :mentor_enrollment_assignments
-  resources :lessons
-  resources :courses do 
-    resources :submissions 
+  namespace :api, defaults: { format: :json } do 
+    namespace :v1 do 
+      # Authentication routes
+      get '/login', to: 'sessions#new'
+      post '/login', to: 'sessions#create'
+      delete '/logout', to: 'sessions#destroy'
+
+      # # Resource routes
+      # resources :students 
+      # resources :mentors 
+      # resources :enrollments
+      # resources :mentor_enrollment_assignments
+      # resources :lessons
+      # resources :courses do 
+      #   resources :submissions
+      # end 
+      # resources :coding_classes
+      # resources :trimesters 
+
+      get '/students', to: 'students#index'
+      get '/mentors', to: 'mentors#index'
+      get '/enrollments', to: 'enrollments#index'
+      get '/mentor_enrollment_assignments', to: 'mentor_enrollment_assignments#index'
+      get '/lessons', to: 'lessons#index'
+      get '/courses/:course_id/submissions', to: 'submissions#index'
+      get '/coding_classes', to: 'coding_classes#index'
+      get '/trimesters', to: 'trimesters#index'
+      # Admin dashboard route
+      get '/dashboard', to: "admin_dashboard#index"
+
+      post '/students', to: 'students#create'
+      post '/mentors', to: 'mentors#create'
+      post '/enrollments', to: 'enrollments#create'
+      post '/mentor_enrollment_assignments', to: 'mentor_enrollment_assignments#create'
+      post '/lessons', to: 'lessons#create'
+      post '/courses/:course_id/submissions', to: 'submissions#create'
+      post '/coding_classes', to: 'coding_classes#create'
+      post '/trimesters', to: 'trimesters#create'
+    end 
   end 
-  resources :coding_classes
-  resources :trimesters
-  resources :dashboard, to: "admin_dashboard#index"
+ 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
