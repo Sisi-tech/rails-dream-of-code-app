@@ -6,17 +6,26 @@ Rails.application.routes.draw do
       post '/login', to: 'sessions#create'
       delete '/logout', to: 'sessions#destroy'
 
-      # Resource routes
-      resources :students 
-      resources :mentors 
-      resources :enrollments
-      resources :mentor_enrollment_assignments
-      resources :lessons
-      resources :courses do 
-        resources :submissions
-      end 
-      resources :coding_classes
-      resources :trimesters 
+      # # Resource routes
+      # resources :students 
+      # resources :mentors 
+      # resources :enrollments
+      # resources :mentor_enrollment_assignments
+      # resources :lessons
+      # resources :courses do 
+      #   resources :submissions
+      # end 
+      # resources :coding_classes
+      # resources :trimesters 
+
+      get '/students', to: 'students#index'
+      get '/mentors', to: 'mentors#index'
+      get '/enrollments', to: 'enrollments#index'
+      get '/mentor_enrollment_assignments', to: 'mentor_enrollment_assignments#index'
+      get '/lessons', to: 'lessons#index'
+      get '/courses/:course_id/submissions', to: 'submissions#index'
+      get '/coding_classes', to: 'coding_classes#index'
+      get '/trimesters', to: 'trimesters#index'
 
       # Admin dashboard route
       get '/dashboard', to: "admin_dashboard#index"
