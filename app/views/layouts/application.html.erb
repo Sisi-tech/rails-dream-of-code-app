@@ -41,9 +41,9 @@
         </div>
         <div class="login-logout">
           <% if session[:user_id]%>
-            <%= button_to 'Logout', logout_path, method: :delete, class: 'logout-link nav-link', data: { confirm: 'Are you sure you want to log out?' }%>
+            <%= button_to 'Logout', api_v1_logout_path, method: :delete, class: 'logout-link nav-link', data: { confirm: 'Are you sure you want to log out?' }%>
           <% else %>
-            <%= link_to 'Login', login_path, class: 'logout-link nav-link' %>
+            <%= link_to 'Login', api_v1_login_path, class: 'logout-link nav-link' %>
           <% end %>
         </div>
       </nav>

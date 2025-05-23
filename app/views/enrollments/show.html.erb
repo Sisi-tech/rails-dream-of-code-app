@@ -4,7 +4,7 @@
 
 <div>
   <%= link_to "Edit this enrollment", edit_enrollment_path(@enrollment) %> |
-  <%= link_to "Back to enrollments", enrollments_path %>
+  <%= link_to "Back to enrollments", api_v1_enrollments_path %>
 
   <%= button_to "Destroy this enrollment", @enrollment, method: :delete %>
 </div>
